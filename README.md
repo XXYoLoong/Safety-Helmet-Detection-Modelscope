@@ -1,25 +1,51 @@
----
-# 详细文档见https://modelscope.cn/docs/%E5%88%9B%E7%A9%BA%E9%97%B4%E5%8D%A1%E7%89%87
-domain: #领域：cv/nlp/audio/multi-modal/AutoML
-# - cv
-tags: #自定义标签
--
-datasets: #关联数据集
-  evaluation:
-  #- iic/ICDAR13_HCTR_Dataset
-  test:
-  #- iic/MTWI
-  train:
-  #- iic/SIBR
-models: #关联模型
-#- iic/ofa_ocr-recognition_general_base_zh
+# ModelScope 创空间复现版：安全帽检测
 
-## 启动文件(若SDK为Gradio/Streamlit，默认为app.py, 若为Static HTML, 默认为index.html)
-# deployspec:
-#   entry_file: app.py
-license: Apache License 2.0
----
-#### Clone with HTTP
+这个版本是按 **魔搭社区创空间** 环境整理的可部署版本，适配：
+
+- SDK：gradio
+- Gradio：6.2.0
+- 镜像：ubuntu22.04-py311-torch2.9.1-modelscope1.35.0
+- 云资源：免费 CPU
+
+## 目录结构
+
+```text
+.
+├── app.py
+├── requirements.txt
+└── README.md
+```
+
+## 部署方式
+
+1. 在魔搭社区新建创空间。
+2. 选择 **SDK = gradio**。
+3. 选择 **Gradio 版本 = 6.2.0**。
+4. 选择镜像 **ubuntu22.04-py311-torch2.9.1-modelscope1.35.0**。
+5. 把本目录下的 `app.py`、`requirements.txt`、`README.md` 上传到仓库根目录。
+6. 等待创空间构建完成后访问即可。
+
+## 说明
+
+- 首次运行时会自动下载模型：
+  `damo/cv_tinynas_object-detection_damoyolo_safety-helmet`
+- 代码保留了你截图中的核心结构：
+  - `pipeline(Tasks.domain_specific_object_detection, model=...)`
+  - `OutputKeys.SCORES / LABELS / BOXES`
+  - `cv2.rectangle(...)`
+  - `cv2.putText(...)`
+- 这里把界面写成了 `gr.Blocks`，目的是更稳地适配 Gradio 6.2.0。
+- OpenCV 这里使用 `opencv-python-headless`，更适合云端无桌面环境。
+
+## 本地调试
+
 ```bash
- git clone https://www.modelscope.cn/studios/yoloong/cv_tinynas_object-detection_damoyolo_safety-helmet.git
+pip install -r requirements.txt
+python app.py
+```
+
+然后访问：
+
+```text
+http://127.0.0.1:7860
 ```
