@@ -15,7 +15,8 @@ def get_detector():
     if _detector is None:
         _detector = pipeline(
             Tasks.domain_specific_object_detection,
-            model=MODEL_ID
+            model=MODEL_ID,
+            trust_remote_code=True
         )
     return _detector
 
@@ -53,6 +54,7 @@ def safety_helmet_detect(image):
         return None
 
     image = np.array(image)
+
     if image.ndim == 3 and image.shape[2] == 4:
         image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
 
